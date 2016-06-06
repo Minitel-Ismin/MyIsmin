@@ -32,7 +32,7 @@ class RolesMiddleware {
 	public function handle($request, Closure $next, $roles)
 	{
 		if ($this->auth->guest() || !$request->user()->hasRole(explode('|', $roles))) {
-			return redirect('/');
+			abort(403,'Unauthorized action.');
 		}
 
 

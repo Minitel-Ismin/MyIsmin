@@ -42,7 +42,7 @@ Route::auth ();
 
 Route::group ( [
 		'middleware' => [
-				'roles:prez'
+				'roles:prez|admin'
 		]
 ], function () {
 	Route::resource ( 'article', 'ArticleController', [ 
@@ -92,4 +92,5 @@ Route::group ( [
 
 
 Route::get ( '/calendar/event', 'EventController@getall' );
+
 
