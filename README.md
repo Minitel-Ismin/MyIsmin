@@ -1,27 +1,36 @@
-# Laravel PHP Framework
+# MyISMIN
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+Sur cette branche se trouve le developpement d'une version dynamique de MyIsmin.
+Elle vise à rendre plus aisée l'utilisation de MyIsmin, et ajouter des fonctionnalités.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+Ce site à été réalisé avec le framework php [Laravel](https://laravel.com), à partir du design original hébergé ici: https://github.com/Minitel-Ismin/MyIsmin
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+###TO-DO
 
-## Official Documentation
+* Utiliser le "lien" des models assos et clubs pour avoir des URLS de type /asso/{assos_lien} et /club/{club_lien}
+* idem pour les pages customs. /page/{lien}
+* faire une gestion plus poussée des droits d'accès en ne permettant qu'au président de l'asso / club d'éditer son article.
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
+### Commandes de base Laravel
+Laravel utilise le gestionnaire de dépendances Composer (https://getcomposer.org/).
 
-## Contributing
+Si vous utilisez un serveur de type LAMP ou WAMP: placez les fichiers dans www/MyIsmin
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+Pour installer l'application, lancer la commande suivante: `composer update` dans www/MyIsmin. Puis aller sur http://127.0.0.1/MyIsmin/public 
 
-## Security Vulnerabilities
+Pour configurer la connection à la base de donnée, éditer le fichier .env .
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+Pour installer les différentes tables dans la base de donnée, lancer la commande suivante : `php artisan migrate`
 
-## License
+Pour tout complément sur le framework, consulter la documentation en ligne (très bien faite) [Laravel website](http://laravel.com/docs)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+Nota bene: pour configurer le plugin jbimage pour l'upload d'image: mettre dans le fichier /public/assets/js/tinymce/js/tinymce/plugins/jbimages/config.php à la ligne $config['img_path'] = '/dossier_site/public/upload/WYSIWYG'
+
+## Contact
+
+Le site a été réalisé principalement par :
+* [Thomas TROUCHKINE](https://github.com/Kerzas)  ( thomas.trouchkine@gmail.com )
+* [Mathieu ROUSSE](https://github.com/m-rousse)  ( mathieu@rousse.me )
+* [Guillaume ANDRES](https://github.com/Brutia) (guillaume.andres@yahoo.fr)
+
+N'hésitez pas à nous contacter pour toutes remarques ou questions !
