@@ -10,6 +10,7 @@ Ce site à été réalisé avec le framework php [Laravel](https://laravel.com),
 * Utiliser le "lien" des models assos et clubs pour avoir des URLS de type /asso/{assos_lien} et /club/{club_lien}
 * idem pour les pages customs. /page/{lien}
 * faire une gestion plus poussée des droits d'accès en ne permettant qu'au président de l'asso / club d'éditer son article.
+* Ajouter un menu en backoffice pour accéder aux différentes pages d'administration
 
 ### Commandes de base Laravel
 Laravel utilise le gestionnaire de dépendances Composer (https://getcomposer.org/).
