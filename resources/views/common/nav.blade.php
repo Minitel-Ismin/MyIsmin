@@ -8,19 +8,19 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">TItre du site</a>
+            <a class="navbar-brand" href={{ URL::to('/')}}>{{ trans('site_cst.site_name') }}</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="#">Accueil</a>
+                    <a href={{ URL::to('/')}}>Accueil</a>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Plannings <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Associations</a></li>
+                        <li><a href={{ URL::to('/calendrier') }}>Associations</a></li>
                         <li><a href="http://ismin.emse.fr/ismin/AffichePlanningMois.php?cycle=ismea&annee=1A">1A</a></li>
                         <li><a href="http://ismin.emse.fr/ismin/AffichePlanningMois.php?cycle=ismea&annee=2A">2A</a></li>
                         <li><a href="http://ismin.emse.fr/ismin/AffichePlanningMois.php?cycle=ismea&annee=3A">3A</a></li>
@@ -29,7 +29,7 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">La formation</a>
+                    <a href={{ URL::to('/formation') }}>La formation</a>
                 </li>
                 <!--<li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Visite guidée <span class="caret"></span></a>
@@ -46,13 +46,19 @@
                     </ul>
                     </li>-->
                 <li class="dropdown">
-<!--                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Associations <span class="caret"></span></a> -->
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Associations <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
+                    	@foreach($assos as $asso)
+                    		<li><a href= {{URL::to('/article/'.$asso->article->id)}}>{{$asso->name}}</a></li>
+                    	@endforeach
                     </ul>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Clubs <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
+                    	@foreach($clubs as $club)
+                    		<li><a href = {{URL::to('/article/'.$club->article->id)}}>{{$club->name}}</a></li>
+                    	@endforeach
                     </ul>
                 </li>
                 <li class="dropdown">
@@ -62,19 +68,46 @@
                         <li><a href="http://portail.emse.fr/">Portail</a></li>
                         <li><a href="https://cloud-sgc.emse.fr:5001/webman/index.cgi">Cloud</a></li>
                         <li><a href="http://services-numeriques.emse.fr/documentation/assistance">Wiki DSI</a></li>
+                        <li><a href="https://campus.emse.fr/course/index.php">Campus</a></li>
+                        <li><a href="http://www.mines-stetienne.fr/formation/ismin/">Site de l'école</a></li>
+                        @if( Auth::user())
                         <li class="divider"></li>
                         <li><a href="http://photos-ismin.tumblr.com/">Tumblr</a></li>
+                        @endif
                     </ul>
                 </li>
-                 <li>
-                    <a href="#">Innov'Action</a>
-                </li>
-                <!--<li>
-                    <a href="connect.php">Se connecter</a>
-                </li>-->
+                @foreach($pages as $page)
+                	<li>
+                    	<a href={{ URL::to('article/'.$page->article->id) }}>{{$page->name}}</a>
+                	</li>
+                @endforeach
+<!--                 <li> -->
+<!--                     <a href="#">Innov'Action</a> -->
+<!--                 </li> -->
+				@if( Auth::user())
+					
+				<li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Mon Compte<span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="{{URL::to('/logout')}}">Se déconnecter</a></li>
+                        @role('admin')
+                        	<li><a href="{{URL::to('/admin/user')}}">Gestion des utilisateurs</a></li>
+                        	<li><a href="{{URL::to('/admin/article')}}">Gestion des articles</a></li>
+                        	<li><a href="{{URL::to('/admin/asso')}}">Gestion des assos</a>
+                        	<li><a href="{{URL::to('/admin/club')}}">Gestion des clubs</a>
+                        	<li><a href="{{URL::to('/admin/page')}}">Gestion des pages</a>
+                        @endrole
+                        @role('admin','prez')
+                        	<li><a href="{{URL::to('/admin/event')}}">Calendrier</a></li>
+                        @endrole
+                    </ul>
+				</li>
+				@else
+                <li>
+                    <a href={{URL::to('/login') }}>Se connecter</a>
+				</li>
+				@endif
             </ul>
         </div>
-        <!-- /.navbar-collapse -->
     </div>
-    <!-- /.container -->
 </nav>

@@ -11,6 +11,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(UsersTableSeeder::class);
+        DB::table('roles')->insert([
+        		
+        		[
+        				'name'=>'admin',
+        				'display_name'=>'Administrateur du site',
+        				'description'=>'A tous les droits'
+        		],
+        		[
+        				'name'=>'user',
+        				'display_name'=>'Utilisateur du site',
+        				'description'=>'Peut demander à réserver la salle'
+        		]]
+        );
     }
 }

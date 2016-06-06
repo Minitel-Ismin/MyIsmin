@@ -6,3 +6,5 @@ Homestead.json
 .env
 /composer.lock
 /composer.phar
+/dos2unix.exe
+*.buildpath

@@ -65,7 +65,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'fr',
 
     /*
     |--------------------------------------------------------------------------
@@ -148,6 +148,10 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
     	Barryvdh\Debugbar\ServiceProvider::class,
+    	Adldap\Laravel\AdldapServiceProvider::class,
+    	Adldap\Laravel\AdldapAuthServiceProvider::class,
+    		
+    		
 
         /*
          * Application Service Providers...
@@ -157,6 +161,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
     	GrahamCampbell\Exceptions\ExceptionsServiceProvider::class,
+    	Zizaco\Entrust\EntrustServiceProvider::class,
+    	App\Providers\ComposerServiceProvider::class,
 
     ],
 
@@ -203,7 +209,12 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-    	'Debugbar' => Barryvdh\Debugbar\Facade::class
+    	'Debugbar' => Barryvdh\Debugbar\Facade::class,
+    	'Adldap' => Adldap\Laravel\Facades\Adldap::class,
+    	'Entrust'   => Zizaco\Entrust\EntrustFacade::class,
+    	'role' => \Zizaco\Entrust\Middleware\EntrustRole::class,
+    	'permission' => \Zizaco\Entrust\Middleware\EntrustPermission::class,
+    	'ability' => \Zizaco\Entrust\Middleware\EntrustAbility::class,
     ],
 
 ];
