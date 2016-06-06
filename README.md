@@ -1,22 +1,27 @@
-# MyISMIN
+# Laravel PHP Framework
 
-Le site a été réalisé avec le moteur [*jekyll*](http://jekyllrb.com/). 
+[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
+[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
+[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
+[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
+[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
 
-### Éditer le site
-Vous pouvez rédiger les pages en HTML ou en markdown. Des variables ont été ajoutées pour ajouter l'image d'entête (*banner*), un logo avant le titre du club/asso (*logo*) et un texte en dessous du titre "MyIsmin" (*subheader*). Le nom de la page dans le menu est défini par la variable *name*, et le titre de la page par la variable *title*. Pour les pages d'asso/club, le `layout: page` est obligatoire.
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
 
-Les pages concernant les assos sont dans le dossier `assos/_posts`, celles concernant les clubs sont dans `clubs/_posts`. Les nouvelles pages (assos/clubs) doivent s'appeler AAAA-MM-JJ-Nom-De-L-Asso.html. (Cette architecture de dossiers et le nommage des pages sont imposés par jekyll).
-Lorsque vous ajoutez une page dans un de ces dossier, l'entrée correspondante est automatiquement ajoutée au menu.
+Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
 
-### Génération du site avec jekyll
-La génération est plutôt aisée, il suffit de *build* le site avec la commande `jekyll build [-d /output/directory]`.
+## Official Documentation
 
-Pour développer tranquillement sans avoir à re-build à chaque changement, vous pouvez utiliser `jekyll serve` qui va créer un serveur et regénérer le site à chaque changement de fichier.
+Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
 
-## Contact
+## Contributing
 
-Le site a été réalisé principalement par :
-* [Thomas TROUCHKINE](https://github.com/Kerzas)  ( thomas.trouchkine@gmail.com )
-* [Mathieu ROUSSE](https://github.com/m-rousse)  ( mathieu@rousse.me )
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
 
-N'hésitez pas à nous contacter pour toutes remarques ou questions !
+## Security Vulnerabilities
+
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
+
+## License
+
+The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).

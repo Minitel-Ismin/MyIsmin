@@ -1,3 +1,8 @@
-_site
-.sass-cache
-.jekyll-metadata
+/vendor
+/node_modules
+/public/storage
+Homestead.yaml
+Homestead.json
+.env
+/composer.lock
+/composer.phar
