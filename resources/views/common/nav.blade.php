@@ -97,9 +97,9 @@
                         	<li><a href="{{URL::to('/admin/club')}}">Gestion des clubs</a>
                         	<li><a href="{{URL::to('/admin/page')}}">Gestion des pages</a>
                         @endrole
-                        @role('admin','prez')
+                        @if(Entrust::hasRole('admin') || Entrust::hasRole('prez'))	
                         	<li><a href="{{URL::to('/admin/event')}}">Calendrier</a></li>
-                        @endrole
+                        @endif
                     </ul>
 				</li>
 				@else
