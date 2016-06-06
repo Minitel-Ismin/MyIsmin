@@ -40,13 +40,31 @@ Route::get ( '/eco-campus', function () {
 
 Route::auth ();
 
-Route::resource ( 'article', 'ArticleController', [ 
-		'except' => [ 
+Route::group ( [
+		'middleware' => [
+				'roles:prez'
+		]
+], function () {
+	Route::resource ( 'article', 'ArticleController', [ 
+		'except' => [
+				'show',
 				'create',
 				'store',
 				'index',
 				'destroy' 
 		] 
+	] );
+});
+
+Route::resource ( 'article', 'ArticleController', [
+		'except' => [
+				'edit',
+				'update',
+				'create',
+				'store',
+				'index',
+				'destroy'
+		]
 ] );
 
 Route::group ( [ 
