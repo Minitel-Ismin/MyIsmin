@@ -1,22 +1,37 @@
 # MyISMIN
 
-Le site a été réalisé avec le moteur [*jekyll*](http://jekyllrb.com/). 
+Sur cette branche se trouve le developpement d'une version dynamique de MyIsmin.
+Elle vise à rendre plus aisée l'utilisation de MyIsmin, et ajouter des fonctionnalités.
 
-### Éditer le site
-Vous pouvez rédiger les pages en HTML ou en markdown. Des variables ont été ajoutées pour ajouter l'image d'entête (*banner*), un logo avant le titre du club/asso (*logo*) et un texte en dessous du titre "MyIsmin" (*subheader*). Le nom de la page dans le menu est défini par la variable *name*, et le titre de la page par la variable *title*. Pour les pages d'asso/club, le `layout: page` est obligatoire.
+Ce site à été réalisé avec le framework php [Laravel](https://laravel.com), à partir du design original hébergé ici: https://github.com/Minitel-Ismin/MyIsmin
 
-Les pages concernant les assos sont dans le dossier `assos/_posts`, celles concernant les clubs sont dans `clubs/_posts`. Les nouvelles pages (assos/clubs) doivent s'appeler AAAA-MM-JJ-Nom-De-L-Asso.html. (Cette architecture de dossiers et le nommage des pages sont imposés par jekyll).
-Lorsque vous ajoutez une page dans un de ces dossier, l'entrée correspondante est automatiquement ajoutée au menu.
+###TO-DO
 
-### Génération du site avec jekyll
-La génération est plutôt aisée, il suffit de *build* le site avec la commande `jekyll build [-d /output/directory]`.
+* Utiliser le "lien" des models assos et clubs pour avoir des URLS de type /asso/{assos_lien} et /club/{club_lien}
+* idem pour les pages customs. /page/{lien}
+* faire une gestion plus poussée des droits d'accès en ne permettant qu'au président de l'asso / club d'éditer son article.
+* Ajouter un menu en backoffice pour accéder aux différentes pages d'administration
 
-Pour développer tranquillement sans avoir à re-build à chaque changement, vous pouvez utiliser `jekyll serve` qui va créer un serveur et regénérer le site à chaque changement de fichier.
+### Commandes de base Laravel
+Laravel utilise le gestionnaire de dépendances Composer (https://getcomposer.org/).
+
+Si vous utilisez un serveur de type LAMP ou WAMP: placez les fichiers dans www/MyIsmin
+
+Pour installer l'application, lancer la commande suivante: `composer update` dans www/MyIsmin. Puis aller sur http://127.0.0.1/MyIsmin/public 
+
+Pour configurer la connection à la base de donnée, éditer le fichier .env .
+
+Pour installer les différentes tables dans la base de donnée, lancer la commande suivante : `php artisan migrate`
+
+Pour tout complément sur le framework, consulter la documentation en ligne (très bien faite) [Laravel website](http://laravel.com/docs)
+
+Nota bene: pour configurer le plugin jbimage pour l'upload d'image: mettre dans le fichier /public/assets/js/tinymce/js/tinymce/plugins/jbimages/config.php à la ligne $config['img_path'] = '/dossier_site/public/upload/WYSIWYG'
 
 ## Contact
 
 Le site a été réalisé principalement par :
 * [Thomas TROUCHKINE](https://github.com/Kerzas)  ( thomas.trouchkine@gmail.com )
 * [Mathieu ROUSSE](https://github.com/m-rousse)  ( mathieu@rousse.me )
+* [Guillaume ANDRES](https://github.com/Brutia) (guillaume.andres@yahoo.fr)
 
 N'hésitez pas à nous contacter pour toutes remarques ou questions !
