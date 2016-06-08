@@ -6,7 +6,7 @@
 
 @section('content')
 
-@if(Entrust::hasRole('admin') || Entrust::hasRole('prez'))	
+@if(Entrust::hasRole('admin') || (Entrust::hasRole('prez') && $user_id==Auth::user()->id))	
 	<div class="col-md-2 col-md-offset-10">
 		<a class="btn btn-default " aria-hidden="true" href={{URL::to('/article/'.$id.'/edit')}} title="Editer l'article">
 			<div class="glyphicon glyphicon-pencil"></div>

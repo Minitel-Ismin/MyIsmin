@@ -33,6 +33,10 @@ class User extends Authenticatable
     	return $this->hasMany(Evenement::class);
     }
     
+    public function articles(){
+    	return $this->hasMany(Article::class);
+    }
+    
 //     public function roles()
 //     {
 //     	return $this->belongsToMany('Role','assigned_roles');

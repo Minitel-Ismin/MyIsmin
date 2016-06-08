@@ -20,6 +20,7 @@ class CreateArticlesTable extends Migration
             $table->string('name')->unique();
             $table->string('header_text');
             $table->string('lien');
+            $table->integer('user_id')->index();
         });
     }
 

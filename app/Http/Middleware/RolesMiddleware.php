@@ -5,6 +5,8 @@ namespace App\Http\Middleware;
 use Closure;
 
 use Illuminate\Contracts\Auth\Guard;
+use App\Article;
+use Illuminate\Support\Facades\Auth;
 
 class RolesMiddleware {
 
@@ -33,6 +35,16 @@ class RolesMiddleware {
 	{
 		if ($this->auth->guest() || !$request->user()->hasRole(explode('|', $roles))) {
 			abort(403,'Unauthorized action.');
+		}else{
+			if($request->route()->parameterNames()){
+				if($request->route()->parameterNames()[0] == "article"){
+					$article = Article::find($request->route()->parameters()["article"]);
+					if(($article->user->id != Auth::user()->id) && !$request->user()->hasRole('admin')){
+						abort(403, 'Unauthorized action.');
+					}
+				}
+			}
+			
 		}
 
 

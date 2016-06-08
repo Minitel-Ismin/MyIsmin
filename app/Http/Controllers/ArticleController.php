@@ -7,6 +7,7 @@ use App\Http\Requests;
 use Illuminate\Support\Facades\DB;
 use App\Assos;
 use App\Article;
+use App\User;
 
 class ArticleController extends Controller {
 	private $acceptFile = [ 
@@ -32,13 +33,17 @@ class ArticleController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function create(Request $request) {
+		$users = DB::table('users')->join('role_user', 'users.id','=','role_user.user_id')->where('role_id','=','3')->orwhere('role_id','=','1')->get();
+		
 		return view('article.admin.add' ,[
-				'error'=>$request->session ()->pull ( 'error', ' '),
+				'errors'=>$request->session ()->pull ( 'error', []),
 				'name'=>$request->session ()->pull ( 'name', ' '),
 				'content'=>$request->session ()->pull ( 'content', " "),
 				'header_text'=>$request->session ()->pull ( 'header_text', ' '),
 				'file'=>'',
 				'banner'=>'',
+				'users'=>$users,
+				'owner_id'=>$request->session()->pull('owner_id', ' '),
 		]);
 	}
 	
@@ -54,19 +59,24 @@ class ArticleController extends Controller {
 		$article->lien = str_replace(' ', '-',strtolower (urldecode($request->input ( 'name' ))));
 		$article->content = $request->input ( 'contenu' );
 		$article->header_text = $request->input('header');
+		
+		$owner = $request->input('owner_id');
+		$owner = User::find($owner);
 		if ($request->hasFile ( 'header_image' )) {
 			if (in_array ( $request->file ( 'header_image' )->getClientOriginalExtension(), $this->acceptFile ) && strpos($request->file('header_image')->getClientOriginalName(),"php") === false) {
 				$request->file ( 'header_image' )->move ( 'assets/img/', $request->file ( 'header_image' )->getClientOriginalName () );
 				$article->image = 'assets/img/' . $request->file ( 'header_image' )->getClientOriginalName ();
 			} else {
-				$request->session ()->flash ( 'error', 'Le fichier doit être une image' );
+				$request->session ()->flash ( 'error', ['Le fichier doit être une image'] );
 				$request->session ()->flash ( 'name', $article->name );
 				$request->session ()->flash ( 'content', $article->content );
 				$request->session ()->flash ( 'header_text', $article->header_text );
-				return redirect ()->action ( 'ArticleController@add' );
+				$request->session()->flash('owner_id', $request->input('owner_id'));
+				return redirect ()->action ( 'ArticleController@create' );
 			}
 		}
 		
+		$article->user()->associate($owner);
 		$article->save ();
 		
 		return redirect ()->action ( 'ArticleController@index');
@@ -100,6 +110,7 @@ class ArticleController extends Controller {
 				'content_header' => $content_header,
 				'article_name' => $article->name,
 				'id'=> $article->id,
+				'user_id'=>$article->user->id,
 		] );
 	}
 	
@@ -147,6 +158,8 @@ class ArticleController extends Controller {
 		$errors = [];
 		$errors [] = $request->session ()->pull ( 'error', null );
 		$article = Article::find($id);
+		$users = DB::table('users')->join('role_user', 'users.id','=','role_user.user_id')->where('role_id','=','3')->orwhere('role_id','=','1')->get();
+		
 		if ($article->image != null) {
 			$banner = $article->image;
 			$file = explode("/",$banner);
@@ -169,6 +182,8 @@ class ArticleController extends Controller {
 				"file" => $file,
 				"error" => $errors,
 				"id" => $article->id,
+				"owner_id"=>$article->user->id,
+				"users"=>$users,
 		] );
 	}
 	
@@ -198,10 +213,14 @@ class ArticleController extends Controller {
 		if(!$request->input('old_file') && !$request->hasFile ( 'header_image' )){
 			$article->image = "";
 		}
-		$article->save ();
+		
 		if($request->input('admin') == "true"){
+			$owner = User::find($request->input("owner_id"));
+			$article->user()->associate($owner);
+			$article->save();
 			return redirect()->action('ArticleController@index');
 		}else{
+			$article->save ();
 			return redirect ()->action ( 'ArticleController@show', [
 					$id
 			] );
