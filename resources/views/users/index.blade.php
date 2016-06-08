@@ -23,9 +23,9 @@
 						<div class="col col-xs-6">
 							<h3 class="panel-title">Liste des utilisateurs</h3>
 						</div>
-						<div class="col col-xs-6 text-right">
-							<a href={{URL::to('/admin/user/create')}}><button type="button" class="btn btn-sm btn-primary btn-create"> Créer un utilisateur</button></a>
-						</div>
+<!-- 						<div class="col col-xs-6 text-right"> -->
+<!-- 							<a href={{URL::to('/admin/user/create')}}><button type="button" class="btn btn-sm btn-primary btn-create"> Créer un utilisateur</button></a> -->
+<!-- 						</div> -->
 					</div>
 				</div>
 				<div class="panel-body">

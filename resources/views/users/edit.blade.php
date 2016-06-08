@@ -22,6 +22,11 @@
 				  	@endforeach
 				</select>
 				
+				<div class="form-group">
+					<label for="name">Nom de l'utilisateur</label> <input name="name"
+						class="form-control" value="{{$user_name}}">
+				</div>
+				
 				<div class="col-sm-offset-2 col-sm-10">
       				<button type="submit" class="btn btn-primary">Enregistrer</button>
     			</div>

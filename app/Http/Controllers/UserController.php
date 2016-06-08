@@ -73,7 +73,7 @@ class UserController extends Controller
         	$user_roles[] = $role->name;
         }
         $roles = DB::table('roles')->select('id','name')->get();
-        return view('users.edit',['user'=>$user, 'roles'=>$roles,'user_roles'=>$user_roles]);
+        return view('users.edit',['user'=>$user, 'roles'=>$roles,'user_roles'=>$user_roles, 'user_name'=>$user->name]);
     }
 
     /**
@@ -96,6 +96,11 @@ class UserController extends Controller
     		$temp = Role::find($role);
     		$user->attachRole($temp);
     	}
+    	
+    	$user->name = $request->input("name");
+    	
+    	$user->save();
+    	
     	return redirect()->action('UserController@index');
     }
 

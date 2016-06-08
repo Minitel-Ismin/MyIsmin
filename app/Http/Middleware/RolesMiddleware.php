@@ -39,7 +39,11 @@ class RolesMiddleware {
 			if($request->route()->parameterNames()){
 				if($request->route()->parameterNames()[0] == "article"){
 					$article = Article::find($request->route()->parameters()["article"]);
-					if(($article->user->id != Auth::user()->id) && !$request->user()->hasRole('admin')){
+					if($article->user){ //gestion des articles sans propriétaire
+						if(($article->user->id != Auth::user()->id) && !$request->user()->hasRole('admin')){
+							abort(403, 'Unauthorized action.');
+						}
+					}else if($request->user()->hasRole('prez')){ //on évite qu'un prez puisse modifier un article sans propriétaire
 						abort(403, 'Unauthorized action.');
 					}
 				}

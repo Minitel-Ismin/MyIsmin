@@ -60,8 +60,7 @@ class ArticleController extends Controller {
 		$article->content = $request->input ( 'contenu' );
 		$article->header_text = $request->input('header');
 		
-		$owner = $request->input('owner_id');
-		$owner = User::find($owner);
+		
 		if ($request->hasFile ( 'header_image' )) {
 			if (in_array ( $request->file ( 'header_image' )->getClientOriginalExtension(), $this->acceptFile ) && strpos($request->file('header_image')->getClientOriginalName(),"php") === false) {
 				$request->file ( 'header_image' )->move ( 'assets/img/', $request->file ( 'header_image' )->getClientOriginalName () );
@@ -76,7 +75,13 @@ class ArticleController extends Controller {
 			}
 		}
 		
-		$article->user()->associate($owner);
+		if($request->input('owner_id') != "0"){
+			$owner = User::find($request->input('owner_id') );
+			$article->user()->associate($owner);
+		}else{
+			$article->user_id = 0;
+		}
+		
 		$article->save ();
 		
 		return redirect ()->action ( 'ArticleController@index');
@@ -103,6 +108,11 @@ class ArticleController extends Controller {
 		} else {
 			$content_header = null;
 		}
+		if($article->user){
+			$user_id = $article->user->id;
+		}else{
+			$user_id = 0;
+		}
 		
 		return view ( 'article.show', [ 
 				'content' => $article->content,
@@ -110,7 +120,7 @@ class ArticleController extends Controller {
 				'content_header' => $content_header,
 				'article_name' => $article->name,
 				'id'=> $article->id,
-				'user_id'=>$article->user->id,
+				'user_id'=>$user_id,
 		] );
 	}
 	
@@ -174,6 +184,11 @@ class ArticleController extends Controller {
 		} else {
 			$content_header = null;
 		}
+		if($article->user){
+			$owner_id = $article->user->id;
+		}else{
+			$owner_id = 0;
+		}
 		return view ( 'article.admin.edit', [
 				'content' => $article->content,
 				"banner" => $banner,
@@ -182,7 +197,7 @@ class ArticleController extends Controller {
 				"file" => $file,
 				"error" => $errors,
 				"id" => $article->id,
-				"owner_id"=>$article->user->id,
+				"owner_id"=>$owner_id,
 				"users"=>$users,
 		] );
 	}
@@ -215,8 +230,14 @@ class ArticleController extends Controller {
 		}
 		
 		if($request->input('admin') == "true"){
-			$owner = User::find($request->input("owner_id"));
-			$article->user()->associate($owner);
+			if($request->input("owner_id")!="0"){
+				$owner = User::find($request->input("owner_id"));
+				$article->user()->associate($owner);
+			}else{
+				$article->user_id = 0;
+			}
+			
+			
 			$article->save();
 			return redirect()->action('ArticleController@index');
 		}else{

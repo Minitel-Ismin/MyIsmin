@@ -39,6 +39,7 @@
 		@foreach($users as $user)
 			<option value={{$user->id}} @if($owner_id == $user->id) selected @endif >{{$user->name}}</option>
 		@endforeach
+		<option value=0 @if($owner_id == 0) selected @endif >Aucun </option>
 	</select>
 </div>
 <div class="form-group">

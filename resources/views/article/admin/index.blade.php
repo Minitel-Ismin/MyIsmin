@@ -72,7 +72,11 @@
 								<td>{{$article->lien}}</td>
 								<td>{{$article->header_text}}</td>
 								<td>{{$article->image}}</td>
+								@if($article->user)
 								<td>{{$article->user->name}}</td>
+								@else
+								<td>Aucun</td>
+								@endif
 							</tr>
 							@endforeach
 						</tbody>
