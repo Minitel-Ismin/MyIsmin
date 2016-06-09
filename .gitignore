@@ -8,3 +8,4 @@ Homestead.json
 /composer.phar
 /dos2unix.exe
 *.buildpath
+/.settings

@@ -3,8 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Assos;
-use App\Clubs;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,6 +14,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+    	if (!\App::environment('local')) {
+    		\URL::forceSchema('https');
+    	}
     }
 
     /**
