@@ -45,23 +45,44 @@
             </div>
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                
-                
+
+
 
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
+                  @if(Entrust::hasRole('admin') || Entrust::hasRole('prez'))
+                     <li class="dropdown">
+                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                           Menu<span class="caret"></span>
+                       </a>
+                       <ul class="dropdown-menu" role="menu">
+                       @role('admin')
+                         <li><a href="{{URL::to('/admin/user')}}">Gestion des utilisateurs</a></li>
+                         <li><a href="{{URL::to('/admin/article')}}">Gestion des articles</a></li>
+                         <li><a href="{{URL::to('/admin/asso')}}">Gestion des assos</a>
+                         <li><a href="{{URL::to('/admin/club')}}">Gestion des clubs</a>
+                         <li><a href="{{URL::to('/admin/page')}}">Gestion des pages</a>
+                       @endrole
+                       @if(Entrust::hasRole('admin') || Entrust::hasRole('prez'))
+                         <li><a href="{{URL::to('/admin/event')}}">Calendrier</a></li>
+                       @endif
+                     </ul>
+                     </li>
+                  @endif
                     <!-- Authentication Links -->
                     	@if (!Auth::guest())
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
                                 {{ Auth::user()->name }} <span class="caret"></span>
                             </a>
-
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="{{ url('/logout') }}"><i class="fa fa-btn fa-sign-out"></i>Logout</a></li>
                             </ul>
+
+
                         </li>
                         @endif
+
                 </ul>
             </div>
         </div>

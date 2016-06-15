@@ -11,11 +11,11 @@ use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
-	
+
 	public function __construct(){
 		$this->middleware('auth');
 	}
-	
+
     /**
      * Display a listing of the resource.
      *
@@ -86,7 +86,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
     	$user = User::with('roles')->find($id);
-    	
+
     	$roles = DB::table('role_user')->where('user_id','=',$id)->lists('role_id');
     	foreach($roles as $role){
     		$temp = Role::find($role);
@@ -96,11 +96,11 @@ class UserController extends Controller
     		$temp = Role::find($role);
     		$user->attachRole($temp);
     	}
-    	
+
     	$user->name = $request->input("name");
-    	
+
     	$user->save();
-    	
+
     	return redirect()->action('UserController@index');
     }
 

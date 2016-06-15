@@ -13,7 +13,7 @@
 				</br>
 				<div class="form-group">
 					<label for="title">Nom de l'évènement</label> <input name="title"
-						type="text" class="form-control" value={{$title}} required>
+						type="text" class="form-control" value="{{$title}}" required>
 
 				</div>
 				<div class="form-group">

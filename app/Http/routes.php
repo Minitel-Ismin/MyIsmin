@@ -40,31 +40,31 @@ Route::get ( '/eco-campus', function () {
 
 Route::auth ();
 
-Route::group ( [
-		'middleware' => [
-				'roles:prez|admin'
-		]
+Route::group ( [ 
+		'middleware' => [ 
+				'roles:prez|admin' 
+		] 
 ], function () {
 	Route::resource ( 'article', 'ArticleController', [ 
-		'except' => [
-				'show',
-				'create',
-				'store',
-				'index',
-				'destroy' 
-		] 
+			'except' => [ 
+					'show',
+					'create',
+					'store',
+					'index',
+					'destroy' 
+			] 
 	] );
-});
+} );
 
-Route::resource ( 'article', 'ArticleController', [
-		'except' => [
+Route::resource ( 'article', 'ArticleController', [ 
+		'except' => [ 
 				'edit',
 				'update',
 				'create',
 				'store',
 				'index',
-				'destroy'
-		]
+				'destroy' 
+		] 
 ] );
 
 Route::group ( [ 
@@ -75,21 +75,34 @@ Route::group ( [
 ], function () {
 	Route::resource ( 'event', 'EventController' );
 	Route::resource ( 'user', 'UserController' );
-	Route::resource ( 'article', 'ArticleController', [
-			'except' => [
+	Route::resource ( 'article', 'ArticleController', [ 
+			'except' => [ 
 					'show',
 					'edit',
-					'update'
-			]
+					'update' 
+			] 
 	] );
-	Route::get('/article/{article}/edit','ArticleController@adminedit');
-// 	Route::put('/article/{article}','ArticleController@adminupdate');
-	Route::resource('asso', 'AssoController');
-	Route::resource('club', 'ClubController');
-	Route::resource('page', 'PageController');
+	Route::get ( '/article/{article}/edit', 'ArticleController@adminedit' );
+	// Route::put('/article/{article}','ArticleController@adminupdate');
+	Route::resource ( 'asso', 'AssoController' );
+	Route::resource ( 'club', 'ClubController' );
+	Route::resource ( 'page', 'PageController' );
 } );
 
-
+Route::group ( [ 
+		'prefix' => 'admin',
+		'middleware' => [ 
+				'roles:admin|prez' 
+		] 
+], function () {
+	Route::resource ( 'event', 'EventController' ,
+			[ 
+			'except' => [ 
+					'edit',
+					'update',
+					'destroy'
+			]] );
+} );
 
 Route::get ( '/calendar/event', 'EventController@getall' );
 

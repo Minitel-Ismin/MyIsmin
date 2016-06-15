@@ -32,7 +32,9 @@
 					<table class="table table-striped table-bordered table-list" id="event_list">
 						<thead>
 							<tr>
+								@role('admin')
 								<th><em class="fa fa-cog"></em></th>
+								@endrole
 								<th class="hidden-xs">ID</th>
 								<th>Titre</th>
 								<th>Asso</th>
@@ -46,6 +48,7 @@
 						<tbody>
 							@foreach($events as $event)
 								<tr>
+									@role('admin')
 									<td>
 										<div class="row">
 											<div class="col-md-10">
@@ -64,6 +67,7 @@
 											</div>
 										</div>
 									</td>
+									@endrole()
 									<td class="hidden-xs">{{$event->id}}</td>
 									
 									<td>{{$event->title}}</td>
