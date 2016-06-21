@@ -49,7 +49,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Associations <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                     	@foreach($assos as $asso)
-                    		<li><a href= {{URL::to('/article/'.$asso->article->id)}}>{{$asso->name}}</a></li>
+                    		<li><a href= {{URL::to('/asso/'.$asso->lien)}}>{{$asso->name}}</a></li>
                     	@endforeach
                     </ul>
                 </li>
@@ -57,7 +57,7 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Clubs <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                     	@foreach($clubs as $club)
-                    		<li><a href = {{URL::to('/article/'.$club->article->id)}}>{{$club->name}}</a></li>
+                    		<li><a href = {{URL::to('/club/'.$club->lien)}}>{{$club->name}}</a></li>
                     	@endforeach
                     </ul>
                 </li>

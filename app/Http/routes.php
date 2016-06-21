@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\ArticleController;
+use App\Assos;
+use App\Clubs;
 /*
  * |--------------------------------------------------------------------------
  * | Application Routes
@@ -84,8 +87,16 @@ Route::group ( [
 	] );
 	Route::get ( '/article/{article}/edit', 'ArticleController@adminedit' );
 	// Route::put('/article/{article}','ArticleController@adminupdate');
-	Route::resource ( 'asso', 'AssoController' );
-	Route::resource ( 'club', 'ClubController' );
+	Route::resource ( 'asso', 'AssoController', [ 
+			'except' => [ 
+					'show',
+			] 
+	] );
+	Route::resource ( 'club', 'ClubController' , [ 
+			'except' => [ 
+					'show',
+			] 
+	]);
 	Route::resource ( 'page', 'PageController' );
 } );
 
@@ -104,6 +115,21 @@ Route::group ( [
 			]] );
 } );
 
+Route::get('/asso/{asso_name}', 'AssoController@show');
+Route::get('/club/{club_name}', 'ClubController@show');
+
+
 Route::get ( '/calendar/event', 'EventController@getall' );
 
+// Route::get( '/asso/{asso_name}', function($asso_name){
+// 	$asso = Assos::where('lien','=',$asso_name)->get();
+// 	$asso = $asso[0];
+// 	return App::call('\App\Http\Controllers\ArticleController@show',["id"=>$asso->article->id]);
+// });
+
+// Route::get( '/club/{club_name}', function($club_name){
+// 	$club = Clubs::where('lien','=',$club_name)->get();
+// 	$club = $club[0];
+// 	return App::call('\App\Http\Controllers\ArticleController@show',["id"=>$club->article->id]);
+// });
 

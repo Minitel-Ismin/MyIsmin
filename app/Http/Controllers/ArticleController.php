@@ -148,6 +148,17 @@ class ArticleController extends Controller {
 		} else {
 			$content_header = null;
 		}
+// 		dd($request->session()->pull("origin", ""));
+		$origin = $request->session()->pull("origin", "");
+		if($origin == "asso/"){
+			$request->session()->flash("origin", "asso/");
+			$request->session()->flash("page", $request->session()->pull("page",""));
+		}else if($origin == "club/"){
+			
+			$request->session()->flash("origin", "club/");
+			$request->session()->flash("page", $request->session()->pull("page",""));
+		}
+		
 		return view ( 'article.edit', [ 
 				'content' => $article->content,
 				"banner" => $banner,
@@ -229,7 +240,7 @@ class ArticleController extends Controller {
 			$article->image = "";
 		}
 		
-		if($request->input('admin') == "true"){
+		if($request->input('admin') == "true"){  //on passe par le backoffice
 			if($request->input("owner_id")!="0"){
 				$owner = User::find($request->input("owner_id"));
 				$article->user()->associate($owner);
@@ -240,8 +251,16 @@ class ArticleController extends Controller {
 			
 			$article->save();
 			return redirect()->action('ArticleController@index');
-		}else{
+		}else{  //front office
+			
 			$article->save ();
+			$origin = $request->session()->pull("origin", "");
+			if($origin == "asso/"){
+				return redirect()->action("AssoController@show",[$request->session()->pull("page","")]);
+			}else if($origin == "club/"){
+				return redirect()->action("ClubController@show",[$request->session()->pull("page","")]);
+			}
+			
 			return redirect ()->action ( 'ArticleController@show', [
 					$id
 			] );

@@ -38,6 +38,7 @@
 								<th class="hidden-xs">ID</th>
 								<th>Nom</th>
 								<th>Article</th>
+								<th>Lien</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -67,6 +68,7 @@
 								<td class="hidden-xs">{{$asso->id}}</td>
 								<td>{{$asso->name}}</td>
 								<td>{{$asso->article->name}}</td>
+								<td>{{$asso->lien}}</td>
 							</tr>
 							@endforeach
 						</tbody>

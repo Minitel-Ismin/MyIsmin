@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Article;
 use App\Clubs;
+use Illuminate\Support\Facades\App;
 
 
 class ClubController extends Controller
@@ -44,6 +45,7 @@ class ClubController extends Controller
         $club = new Clubs();
         $article = Article::find($request->input('article_id'));
         $club->name = $request->input('name');
+        $asso->lien = $request->input('lien');
         
         $club->article()->associate($article);
         
@@ -58,9 +60,13 @@ class ClubController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($club_name, Request $request)
     {
-        
+    	$club = Clubs::where('lien','=',$club_name)->get();
+    	$club = $club[0];
+    	$request->session()->flash("origin","club/");
+    	$request->session()->flash("page",$club_name);
+    	return App::call('\App\Http\Controllers\ArticleController@show',["id"=>$club->article->id]);
     }
 
     /**
@@ -73,7 +79,7 @@ class ClubController extends Controller
     {
         $articles = Article::all();
         $club = Clubs::find($id);
-        return view('assos_clubs.edit',['type' => 'club','asso_name'=>$club->name, 'articles'=>$articles, 'article_s' => $club->article->id,"id"=>$club->id, 'errors' => [""]]);
+        return view('assos_clubs.edit',['type' => 'club','asso_name'=>$club->name, 'articles'=>$articles, 'article_s' => $club->article->id,"id"=>$club->id, 'errors' => [""], "lien"=>$club->lien]);
     }
 
     /**
@@ -88,6 +94,7 @@ class ClubController extends Controller
     	$article = Article::find($request->input('article_id'));
     	$club = Clubs::find($id);
     	$club->name = $request->input('name');
+    	$club->lien = $request->input('lien');
     	 
     	$club->article()->associate($article);
     	 

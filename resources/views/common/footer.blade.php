@@ -31,3 +31,4 @@
 
 <script src="{{ URL::asset('assets/js/fullcalendar.min.js') }}"></script>
 <script src="{{ URL::asset('assets/js/fullcalendar.fr.js') }}"></script>
+@yield('scripts')

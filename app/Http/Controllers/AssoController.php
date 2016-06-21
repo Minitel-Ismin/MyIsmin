@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Assos;
 use App\Article;
+use Illuminate\Support\Facades\App;
 
 class AssoController extends Controller
 {
@@ -43,6 +44,7 @@ class AssoController extends Controller
         $asso = new Assos();
         $article = Article::find($request->input('article_id'));
         $asso->name = $request->input('name');
+        $asso->lien = $request->input('lien');
         
         $asso->article()->associate($article);
         
@@ -57,9 +59,13 @@ class AssoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($asso_name, Request $request)
     {
-        
+    	$asso = Assos::where('lien','=',$asso_name)->get();
+    	$asso = $asso[0];
+    	$request->session()->flash("origin","asso/");
+    	$request->session()->flash("page",$asso_name);
+    	return App::call('\App\Http\Controllers\ArticleController@show',["id"=>$asso->article->id]);
     }
 
     /**
@@ -72,7 +78,7 @@ class AssoController extends Controller
     {
         $articles = Article::all();
         $asso = Assos::find($id);
-        return view('assos_clubs.edit',['type' => 'asso','asso_name'=>$asso->name, 'articles'=>$articles, 'article_s' => $asso->article->id,"id"=>$asso->id, 'errors' => [""]]);
+        return view('assos_clubs.edit',['type' => 'asso','asso_name'=>$asso->name, 'articles'=>$articles, 'article_s' => $asso->article->id,"id"=>$asso->id, 'errors' => [""], "lien"=>$asso->lien]);
     }
 
     /**
@@ -87,6 +93,7 @@ class AssoController extends Controller
     	$article = Article::find($request->input('article_id'));
     	$asso = Assos::find($id);
     	$asso->name = $request->input('name');
+    	$asso->lien = $request->input('lien');
     	
     	$asso->article()->associate($article);
     	
