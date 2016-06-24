@@ -179,8 +179,8 @@ class ArticleController extends Controller {
 		$errors = [];
 		$errors [] = $request->session ()->pull ( 'error', null );
 		$article = Article::find($id);
-		$users = DB::table('users')->join('role_user', 'users.id','=','role_user.user_id')->where('role_id','=','3')->orwhere('role_id','=','1')->get();
-		
+		$users = DB::table('users')->select('users.*')->join('role_user', 'users.id','=','role_user.user_id')
+					->leftjoin('roles','role_user.role_id','=','roles.id')->where('roles.name','=','prez')->orwhere('roles.name','=','admin')->get();
 		if ($article->image != null) {
 			$banner = $article->image;
 			$file = explode("/",$banner);
