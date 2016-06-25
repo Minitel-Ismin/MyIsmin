@@ -1,8 +1,6 @@
 <?php
 
 use App\Http\Controllers\ArticleController;
-use App\Assos;
-use App\Clubs;
 /*
  * |--------------------------------------------------------------------------
  * | Application Routes

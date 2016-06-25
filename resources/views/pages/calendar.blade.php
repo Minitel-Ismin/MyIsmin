@@ -42,12 +42,11 @@ document.onreadystatechange = function () {
         eventLimit: true, // allow "more" link when too many events
         events: retour,
         height: 1000,
-        defaultView: 'agendaWeek',
         eventRender: function(event, element) {
 
-        element.append("<br/>Description: " + event.description);
-            element.append("<br/><br/>Lieu: "+ event.lieu);
-            element.append("<br/>Organisateur: " + event.orga);
+//         element.append("<br/>Description: " + event.description);
+//             element.append("<br/><br/>Lieu: "+ event.lieu);
+//             element.append("<br/>Organisateur: " + event.orga);
            
     		    element.attr('href', 'javascript:void(0);');
     		    element.click(function() {
