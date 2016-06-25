@@ -32,12 +32,10 @@
 					<table class="table table-striped table-bordered table-list" id="event_list">
 						<thead>
 							<tr>
-								@role('admin')
 								<th><em class="fa fa-cog"></em></th>
-								@endrole
 								<th class="hidden-xs">ID</th>
 								<th>Titre</th>
-								<th>Asso</th>
+								<th>Org.</th>
 								<th>Description</th>
 								<th>Lieu</th>
 								<th>Début</th>
@@ -48,8 +46,9 @@
 						<tbody>
 							@foreach($events as $event)
 								<tr>
-									@role('admin')
+									
 									<td>
+									@if(($event->user && Entrust::hasRole('prez') && Auth::user()->id == $event->user->id) || Entrust::hasRole('admin'))
 										<div class="row">
 											<div class="col-md-10">
 												<div class="col-md-5">
@@ -66,8 +65,9 @@
 												</div>
 											</div>
 										</div>
+										
+									@endif
 									</td>
-									@endrole()
 									<td class="hidden-xs">{{$event->id}}</td>
 									
 									<td>{{$event->title}}</td>

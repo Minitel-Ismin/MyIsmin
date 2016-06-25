@@ -76,7 +76,7 @@ Route::group ( [
 				'roles:admin' 
 		] 
 ], function () {
-	Route::resource ( 'event', 'EventController' );
+// 	Route::resource ( 'event', 'EventController' );
 	Route::resource ( 'user', 'UserController' );
 	Route::resource ( 'article', 'ArticleController', [ 
 			'except' => [ 
@@ -106,13 +106,8 @@ Route::group ( [
 				'roles:admin|prez' 
 		] 
 ], function () {
-	Route::resource ( 'event', 'EventController' ,
-			[ 
-			'except' => [ 
-					'edit',
-					'update',
-					'destroy'
-			]] );
+	Route::resource ( 'event', 'EventController' 
+			);
 } );
 
 Route::get('/asso/{asso_name}', 'AssoController@show');
@@ -121,15 +116,4 @@ Route::get('/club/{club_name}', 'ClubController@show');
 
 Route::get ( '/calendar/event', 'EventController@getall' );
 
-// Route::get( '/asso/{asso_name}', function($asso_name){
-// 	$asso = Assos::where('lien','=',$asso_name)->get();
-// 	$asso = $asso[0];
-// 	return App::call('\App\Http\Controllers\ArticleController@show',["id"=>$asso->article->id]);
-// });
-
-// Route::get( '/club/{club_name}', function($club_name){
-// 	$club = Clubs::where('lien','=',$club_name)->get();
-// 	$club = $club[0];
-// 	return App::call('\App\Http\Controllers\ArticleController@show',["id"=>$club->article->id]);
-// });
 
