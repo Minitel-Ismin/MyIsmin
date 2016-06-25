@@ -39,6 +39,7 @@
 								<th>Nom</th>
 								<th>Article</th>
 								<th>Lien</th>
+								<th>Prez</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -69,6 +70,11 @@
 								<td>{{$asso->name}}</td>
 								<td>{{$asso->article->name}}</td>
 								<td>{{$asso->lien}}</td>
+								@if($asso->user)
+								<td>{{$asso->user->name}}</td>
+								@else
+								<td>Aucun</td>
+								@endif
 							</tr>
 							@endforeach
 						</tbody>

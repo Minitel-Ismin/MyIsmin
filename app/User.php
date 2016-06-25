@@ -3,6 +3,7 @@
 namespace App;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -37,6 +38,10 @@ class User extends Authenticatable
     	return $this->hasMany(Article::class);
     }
     
+    public static function getPrez(){
+    	return DB::table('users')->select('users.*')->join('role_user', 'users.id','=','role_user.user_id')
+    			->leftjoin('roles','role_user.role_id','=','roles.id')->where('roles.name','=','prez')->orwhere('roles.name','=','admin')->get();
+    }
 //     public function roles()
 //     {
 //     	return $this->belongsToMany('Role','assigned_roles');
