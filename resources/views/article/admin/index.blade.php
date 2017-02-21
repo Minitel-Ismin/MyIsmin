@@ -40,6 +40,7 @@
 								<th>lien</th>
 								<th>Texte d'en tête</th>
 								<th>image</th>
+								<th>Proprio</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -71,6 +72,11 @@
 								<td>{{$article->lien}}</td>
 								<td>{{$article->header_text}}</td>
 								<td>{{$article->image}}</td>
+								@if($article->user)
+								<td>{{$article->user->name}}</td>
+								@else
+								<td>Aucun</td>
+								@endif
 							</tr>
 							@endforeach
 						</tbody>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArticleController;
 /*
  * |--------------------------------------------------------------------------
  * | Application Routes
@@ -40,8 +41,26 @@ Route::get ( '/eco-campus', function () {
 
 Route::auth ();
 
+Route::group ( [ 
+		'middleware' => [ 
+				'roles:prez|admin' 
+		] 
+], function () {
+	Route::resource ( 'article', 'ArticleController', [ 
+			'except' => [ 
+					'show',
+					'create',
+					'store',
+					'index',
+					'destroy' 
+			] 
+	] );
+} );
+
 Route::resource ( 'article', 'ArticleController', [ 
 		'except' => [ 
+				'edit',
+				'update',
 				'create',
 				'store',
 				'index',
@@ -55,23 +74,44 @@ Route::group ( [
 				'roles:admin' 
 		] 
 ], function () {
-	Route::resource ( 'event', 'EventController' );
+// 	Route::resource ( 'event', 'EventController' );
 	Route::resource ( 'user', 'UserController' );
-	Route::resource ( 'article', 'ArticleController', [
-			'except' => [
+	Route::resource ( 'article', 'ArticleController', [ 
+			'except' => [ 
 					'show',
 					'edit',
-					'update'
-			]
+					'update' 
+			] 
 	] );
-	Route::get('/article/{article}/edit','ArticleController@adminedit');
-// 	Route::put('/article/{article}','ArticleController@adminupdate');
-	Route::resource('asso', 'AssoController');
-	Route::resource('club', 'ClubController');
-	Route::resource('page', 'PageController');
+	Route::get ( '/article/{article}/edit', 'ArticleController@adminedit' );
+	// Route::put('/article/{article}','ArticleController@adminupdate');
+	Route::resource ( 'asso', 'AssoController', [ 
+			'except' => [ 
+					'show',
+			] 
+	] );
+	Route::resource ( 'club', 'ClubController' , [ 
+			'except' => [ 
+					'show',
+			] 
+	]);
+	Route::resource ( 'page', 'PageController' );
 } );
 
+Route::group ( [ 
+		'prefix' => 'admin',
+		'middleware' => [ 
+				'roles:admin|prez' 
+		] 
+], function () {
+	Route::resource ( 'event', 'EventController' 
+			);
+} );
+
+Route::get('/asso/{asso_name}', 'AssoController@show');
+Route::get('/club/{club_name}', 'ClubController@show');
 
 
 Route::get ( '/calendar/event', 'EventController@getall' );
+
 

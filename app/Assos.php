@@ -30,4 +30,5 @@ class Assos extends Model
 	
 	
 	
+	
 }

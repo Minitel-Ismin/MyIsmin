@@ -24,7 +24,14 @@ class EventController extends Controller {
 		] );
 	}
 	public function getall() {
-		$events = Evenement::with ( 'lieu','assos' )->where ( 'start', '>', (new \DateTime ('first day of')) )->get ();
+		if(Auth::user()){
+			$events = Evenement::with ( 'lieu','assos' )->where ( 'start', '>', (new \DateTime ('first day of')) )->get ();
+			
+		}else{
+			$salle_reu_id = Lieu::where('name', "=", "Salle de réu")->get()[0]->id;
+			$events = Evenement::with ( 'lieu','assos' )->where ( 'start', '>', (new \DateTime ('first day of')) )->where('lieu_id','=',$salle_reu_id)->get ();
+			
+		}
 		return $events->toJson ();
 	}
 	

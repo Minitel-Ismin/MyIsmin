@@ -7,6 +7,7 @@ use App\Http\Requests;
 use Illuminate\Support\Facades\DB;
 use App\Assos;
 use App\Article;
+use App\User;
 
 class ArticleController extends Controller {
 	private $acceptFile = [ 
@@ -32,13 +33,17 @@ class ArticleController extends Controller {
 	 * @return \Illuminate\Http\Response
 	 */
 	public function create(Request $request) {
+		$users = User::getPrez();
+		
 		return view('article.admin.add' ,[
-				'error'=>$request->session ()->pull ( 'error', ' '),
+				'errors'=>$request->session ()->pull ( 'error', []),
 				'name'=>$request->session ()->pull ( 'name', ' '),
 				'content'=>$request->session ()->pull ( 'content', " "),
 				'header_text'=>$request->session ()->pull ( 'header_text', ' '),
 				'file'=>'',
 				'banner'=>'',
+				'users'=>$users,
+				'owner_id'=>$request->session()->pull('owner_id', ' '),
 		]);
 	}
 	
@@ -54,17 +59,27 @@ class ArticleController extends Controller {
 		$article->lien = str_replace(' ', '-',strtolower (urldecode($request->input ( 'name' ))));
 		$article->content = $request->input ( 'contenu' );
 		$article->header_text = $request->input('header');
+		
+		
 		if ($request->hasFile ( 'header_image' )) {
 			if (in_array ( $request->file ( 'header_image' )->getClientOriginalExtension(), $this->acceptFile ) && strpos($request->file('header_image')->getClientOriginalName(),"php") === false) {
 				$request->file ( 'header_image' )->move ( 'assets/img/', $request->file ( 'header_image' )->getClientOriginalName () );
 				$article->image = 'assets/img/' . $request->file ( 'header_image' )->getClientOriginalName ();
 			} else {
-				$request->session ()->flash ( 'error', 'Le fichier doit être une image' );
+				$request->session ()->flash ( 'error', ['Le fichier doit être une image'] );
 				$request->session ()->flash ( 'name', $article->name );
 				$request->session ()->flash ( 'content', $article->content );
 				$request->session ()->flash ( 'header_text', $article->header_text );
-				return redirect ()->action ( 'ArticleController@add' );
+				$request->session()->flash('owner_id', $request->input('owner_id'));
+				return redirect ()->action ( 'ArticleController@create' );
 			}
+		}
+		
+		if($request->input('owner_id') != "0"){
+			$owner = User::find($request->input('owner_id') );
+			$article->user()->associate($owner);
+		}else{
+			$article->user_id = 0;
 		}
 		
 		$article->save ();
@@ -93,6 +108,11 @@ class ArticleController extends Controller {
 		} else {
 			$content_header = null;
 		}
+		if($article->user){
+			$user_id = $article->user->id;
+		}else{
+			$user_id = 0;
+		}
 		
 		return view ( 'article.show', [ 
 				'content' => $article->content,
@@ -100,6 +120,7 @@ class ArticleController extends Controller {
 				'content_header' => $content_header,
 				'article_name' => $article->name,
 				'id'=> $article->id,
+				'user_id'=>$user_id,
 		] );
 	}
 	
@@ -127,6 +148,17 @@ class ArticleController extends Controller {
 		} else {
 			$content_header = null;
 		}
+// 		dd($request->session()->pull("origin", ""));
+		$origin = $request->session()->pull("origin", "");
+		if($origin == "asso/"){
+			$request->session()->flash("origin", "asso/");
+			$request->session()->flash("page", $request->session()->pull("page",""));
+		}else if($origin == "club/"){
+			
+			$request->session()->flash("origin", "club/");
+			$request->session()->flash("page", $request->session()->pull("page",""));
+		}
+		
 		return view ( 'article.edit', [ 
 				'content' => $article->content,
 				"banner" => $banner,
@@ -147,6 +179,7 @@ class ArticleController extends Controller {
 		$errors = [];
 		$errors [] = $request->session ()->pull ( 'error', null );
 		$article = Article::find($id);
+		$users = User::getPrez();
 		if ($article->image != null) {
 			$banner = $article->image;
 			$file = explode("/",$banner);
@@ -161,6 +194,11 @@ class ArticleController extends Controller {
 		} else {
 			$content_header = null;
 		}
+		if($article->user){
+			$owner_id = $article->user->id;
+		}else{
+			$owner_id = 0;
+		}
 		return view ( 'article.admin.edit', [
 				'content' => $article->content,
 				"banner" => $banner,
@@ -169,6 +207,8 @@ class ArticleController extends Controller {
 				"file" => $file,
 				"error" => $errors,
 				"id" => $article->id,
+				"owner_id"=>$owner_id,
+				"users"=>$users,
 		] );
 	}
 	
@@ -198,10 +238,28 @@ class ArticleController extends Controller {
 		if(!$request->input('old_file') && !$request->hasFile ( 'header_image' )){
 			$article->image = "";
 		}
-		$article->save ();
-		if($request->input('admin') == "true"){
+		
+		if($request->input('admin') == "true"){  //on passe par le backoffice
+			if($request->input("owner_id")!="0"){
+				$owner = User::find($request->input("owner_id"));
+				$article->user()->associate($owner);
+			}else{
+				$article->user_id = 0;
+			}
+			
+			
+			$article->save();
 			return redirect()->action('ArticleController@index');
-		}else{
+		}else{  //front office
+			
+			$article->save ();
+			$origin = $request->session()->pull("origin", "");
+			if($origin == "asso/"){
+				return redirect()->action("AssoController@show",[$request->session()->pull("page","")]);
+			}else if($origin == "club/"){
+				return redirect()->action("ClubController@show",[$request->session()->pull("page","")]);
+			}
+			
 			return redirect ()->action ( 'ArticleController@show', [
 					$id
 			] );

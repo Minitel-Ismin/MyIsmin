@@ -13,15 +13,16 @@
 				</br>
 				<div class="form-group">
 					<label for="title">Nom de l'évènement</label> <input name="title"
-						type="text" class="form-control" value={{$title}} required>
+						type="text" class="form-control" value="{{$title}}" required>
 
 				</div>
 				<div class="form-group">
-
 					<label for="lieu">Organisateur</label> <select class="form-control"
 						id="lieu" name="orga">
 						@foreach($organisateurs as $organisateur)
-							<option value={{$organisateur->id}} @if($organisateur_s == $organisateur->id) selected @endif > {{$organisateur->name}}</option>
+							@if(($organisateur->user && Entrust::hasRole('prez') && Auth::user()->id == $organisateur->user->id)||Entrust::hasRole('admin'))
+								<option value={{$organisateur->id}} @if($organisateur_s == $organisateur->id) selected @endif > {{$organisateur->name}}</option>
+							@endif
 						@endforeach
 						<option value="0" @if($organisateur_s==0) selected @endif>Autre</option>
 					</select>

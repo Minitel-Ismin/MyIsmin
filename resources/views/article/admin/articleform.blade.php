@@ -31,6 +31,17 @@
 		type="text" class="form-control" required value={{$name}}>
 
 </div>
+
+<div class="form-group">
+
+	<label for="owner">Propriétaire</label> <select class="form-control"
+		id="owner_id" name="owner_id">
+		@foreach($users as $user)
+			<option value={{$user->id}} @if($owner_id == $user->id) selected @endif >{{$user->name}}</option>
+		@endforeach
+		<option value=0 @if($owner_id == 0) selected @endif >Aucun </option>
+	</select>
+</div>
 <div class="form-group">
 	<label for="header">Texte de la bannière:</label> <input name="header"
 		class="form-control" value="{{$header_text}}">
@@ -45,3 +56,4 @@
 <div class="col-sm-offset-2 col-sm-10">
 	<button type="submit" class="btn btn-primary">Enregistrer</button>
 </div>
+

@@ -44,7 +44,7 @@ class LdapAuthUserProvider implements IlluminateUserProvider {
     		// Passed!
 			$user = User::where('username','=',$credentials["username"])->first();
 			if($user==null){
-				$role = Role::find(3);
+				$role = Role::where('name','=','prez');
 				$user = new User();
 				$user->username = $credentials["username"];
 				$user->name = $credentials["username"];

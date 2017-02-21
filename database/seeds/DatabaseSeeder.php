@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         DB::table('roles')->insert([
-        		
+
         		[
         				'name'=>'admin',
         				'display_name'=>'Administrateur du site',
@@ -22,7 +22,19 @@ class DatabaseSeeder extends Seeder
         				'name'=>'user',
         				'display_name'=>'Utilisateur du site',
         				'description'=>'Peut demander à réserver la salle'
-        		]]
+        		],
+            [
+              'name'=>'prez',
+              'display_name'=>'Président d\'une assos/club',
+              'description'=>'Peut demander à réserver la salle'
+            ]
+            ]
         );
+        DB::table('lieus')->insert([
+            'name'=>'Salle de réu',
+        ],
+        [
+            'name'=>'ME',
+        ]);
     }
 }
