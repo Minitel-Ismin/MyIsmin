@@ -5,7 +5,7 @@
 	<div class="row">
 		<div class="col-md-10 col-md-offset-1">
 			<form role="form" class="col-md-12 go-right" method="post"
-			action="{{route('admin.event.update', ['page'=>page])}}">
+			action="{{route('admin.event.update', ['page'=>id])}}">
 				{!! csrf_field() !!}
 				<input type="hidden" name="_method" value="PUT">
 				<h2>Edition de la page</h2>
