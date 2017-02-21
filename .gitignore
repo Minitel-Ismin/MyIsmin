@@ -9,3 +9,4 @@ Homestead.json
 /dos2unix.exe
 *.buildpath
 /.settings
+/public/phpmyadmin
