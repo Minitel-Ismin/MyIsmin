@@ -38,7 +38,7 @@
 | -------------------------------------------------------------------*/
 
 	
-	$config['img_path'] =  'uploads/WYSIWYG'; // Relative to domain nameE:\MyIsmin\MyIsmin2\public\uploads
+	$config['img_path'] =  '/upload/WYSIWYG'; // Relative to domain nameE:\MyIsmin\MyIsmin2\public\uploads
 
 	$config['upload_path'] = $_SERVER['DOCUMENT_ROOT'] . $config['img_path']; // Physical path. [Usually works fine like this]
 
@@ -52,7 +52,7 @@
 | -------------------------------------------------------------------*/
 
 	
-	$config['allowed_types'] = 'gif|jpg|png';
+	$config['allowed_types'] = 'gif|jpg|png|jpeg';
 
 
 /*-------------------------------------------------------------------
