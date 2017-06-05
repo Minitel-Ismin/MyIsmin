@@ -145,14 +145,11 @@ class EventController extends Controller {
 					"lieu_s" => $event->lieu->id,
 					"organisateurs"=>$orgas,
 					"organisateur_s"=>$orga_id,
-					"start" => "",
-					"end" => "",
+					"start" => (new \DateTime ( $event->start ))->format ( "d/m/Y H:i" ),
+					"end" => (new \DateTime ( $event->end ))->format ( "d/m/Y H:i" ),
 					"desc" => $event->description,
 					"errors" => $errors
 				]
-					
-					
-					
 			);
 		}
 		

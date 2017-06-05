@@ -19,7 +19,7 @@ Pour installer l'application, lancer la commande suivante: `composer update` dan
 
 Pour configurer la connection à la base de donnée, éditer le fichier .env .
 
-Pour installer les différentes tables dans la base de donnée, lancer la commande suivante : `php artisan migrate`
+Pour installer les différentes tables dans la base de donnée, lancer la commande suivante : `php artisan migrate` puis faire le remplissage de la table des roles: `php artisan db:seed` 
 
 Pour tout complément sur le framework, consulter la documentation en ligne (très bien faite) [Laravel website](http://laravel.com/docs)
 

@@ -9,7 +9,7 @@
 	src="{{URL::asset('assets/js/jquery-ui.min.js')}}"></script>
 <script>
 
-var test;
+
 document.onreadystatechange = function () {
     if(document.readyState != "complete")
         return;
@@ -50,8 +50,8 @@ document.onreadystatechange = function () {
            
     		    element.attr('href', 'javascript:void(0);');
     		    element.click(function() {
-    		             $("#startTime").html(moment(event.start).format('D/M à H:MM'));
-    		             $("#endTime").html(moment(event.end).format('D/M à H:MM'));
+    		             $("#startTime").html(moment(event.start).format('D/M à H:mm'));
+    		             $("#endTime").html(moment(event.end).format('D/M à H:mm'));
     		             $("#eventInfo").html(event.description);
     		             $("#eventPlace").html(event.lieu);
     		             $("#eventOrg").html(event.orga);

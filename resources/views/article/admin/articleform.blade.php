@@ -15,6 +15,7 @@
 </br>
 
 <div class="form-group">
+	<label for="file">Image bannière</label>
 	<div class="input-group input-file" name="header_image">
 		<span class="input-group-btn">
 			<button class="btn btn-default btn-choose" type="button">Choisir</button>
