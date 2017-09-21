@@ -10,3 +10,4 @@ Homestead.json
 *.buildpath
 /.settings
 /public/phpmyadmin
+public/upload/WYSIWYG
