@@ -72,6 +72,11 @@ class EventController extends Controller {
 		$event->description = $request->input ( 'description' );
 
 		$lieu = Lieu::find ( $request->input ( 'lieu' ) );
+		if($lieu == null){
+			$lieu = new Lieu();
+			$lieu->name = $request->input('lieu');
+			$lieu->save();
+		}
 		
 		$orga_id = $request->input( 'orga' );
 		if($orga_id != 0){
@@ -183,6 +188,14 @@ class EventController extends Controller {
 		$event->end = \DateTime::createFromFormat ( 'd/m/Y H:i', $request->input ( 'end' ) );
 		$event->description = $request->input ( 'description' );
 		$lieu = Lieu::find ( $request->input ( 'lieu' ) );
+
+		if($lieu == null){
+			$lieu = new Lieu();
+			$lieu->name = $request->input('lieu');
+			$lieu->save();
+		}
+
+
 		$orga_id = $request->input('orga');
 		if($orga_id !=0){
 			$orga = Assos::find($orga_id);

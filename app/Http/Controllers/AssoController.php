@@ -39,7 +39,8 @@ class AssoController extends Controller {
 				"prez_s" => 0,
 				"prezs" => $prezs,
 				"lien"=>"",
-				
+				"color"=> "",
+				"text_color" => "",
 		] );
 	}
 	
@@ -54,6 +55,10 @@ class AssoController extends Controller {
 		$article = Article::find ( $request->input ( 'article_id' ) );
 		$asso->name = $request->input ( 'name' );
 		$asso->lien = $request->input ( 'lien' );
+		$asso->color = $request->input ( 'color' );
+		$asso->text_color = $request->input ( 'text_color' );
+		
+		
 		$prez = User::find ( $request->input ( 'prez_id' ) );
 		
 		$asso->user ()->associate ( $prez );
@@ -108,7 +113,10 @@ class AssoController extends Controller {
 				],
 				"lien" => $asso->lien,
 				"prezs" => $prez ,
-				"prez_s" => $prez_id
+				"prez_s" => $prez_id,
+				"color"=> $asso->color,
+				"text_color" => $asso->text_color,
+			
 		] );
 	}
 	
@@ -124,6 +132,8 @@ class AssoController extends Controller {
 		$asso = Assos::find ( $id );
 		$asso->name = $request->input ( 'name' );
 		$asso->lien = $request->input ( 'lien' );
+		$asso->color = $request->input ( 'color' );
+		$asso->text_color = $request->input ( 'text_color' );
 		$prez = User::find ( $request->input ( 'prez_id' ) );
 		
 		$asso->user ()->associate ( $prez );

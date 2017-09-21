@@ -31,6 +31,18 @@
 </div>
 
 
+@if($type == 'asso')
+<div class="form-group">
+	<label for="header">Couleur de l'asso dans l'agenda</label> 
+	<input name="color" class="form-control" value="{{$color}}">
+
+</div>
+<div class="form-group">
+	<label for="header">Couleur du texte de l'asso dans l'agenda</label> 
+	<input name="text_color" class="form-control" value="{{$text_color}}">
+
+</div>
+@endif
 
 <div class="form-group">
 	<button type="submit" class="btn btn-default">Enregistrer</button>

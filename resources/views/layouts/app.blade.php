@@ -7,6 +7,8 @@
 
     <title>Laravel</title>
 
+    @yield('script')
+
     <!-- Fonts -->
     <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
     <link href="//fonts.googleapis.com/css?family=Lato:100,300,400,700" rel='stylesheet' type='text/css'>
@@ -24,6 +26,8 @@
             margin-right: 6px;
         }
     </style>
+
+    @yield('css')
 </head>
 <body id="app-layout">
     <nav class="navbar navbar-default navbar-static-top">
@@ -64,7 +68,8 @@
                          <li><a href="{{URL::to('/admin/page')}}">Gestion des pages</a>
                        @endrole
                        @if(Entrust::hasRole('admin') || Entrust::hasRole('prez'))
-                         <li><a href="{{URL::to('/admin/event')}}">Calendrier</a></li>
+                         <li><a href="{{URL::to('/admin/event')}}">Gestion des évènements</a></li>
+                         <li><a href="{{URL::to('/admin/lieu')}}">Gestion des lieux</a></li>
                        @endif
                      </ul>
                      </li>
@@ -95,5 +100,7 @@
 	<script src="{{ URL::asset('assets/js/jquery.js') }}"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>--}}
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
+
+    @yield('footerscript')
 </body>
 </html>

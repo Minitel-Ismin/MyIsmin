@@ -32,7 +32,8 @@ document.onreadystatechange = function () {
                     end  : e.end,
                     orga : asso_name,
                     description: e.description,
-                    lieu: e.lieu.name
+                    lieu: e.lieu.name,
+                    asso: e.assos
                 });
             });
         }
@@ -44,20 +45,22 @@ document.onreadystatechange = function () {
         height: 1000,
         eventRender: function(event, element) {
 
-//         element.append("<br/>Description: " + event.description);
-//             element.append("<br/><br/>Lieu: "+ event.lieu);
-//             element.append("<br/>Organisateur: " + event.orga);
-           
-    		    element.attr('href', 'javascript:void(0);');
-    		    element.click(function() {
-    		             $("#startTime").html(moment(event.start).format('D/M à H:mm'));
-    		             $("#endTime").html(moment(event.end).format('D/M à H:mm'));
-    		             $("#eventInfo").html(event.description);
-    		             $("#eventPlace").html(event.lieu);
-    		             $("#eventOrg").html(event.orga);
-    		             
-    		        	$("#eventContent").dialog({ modal: true, title: event.title, width:350});
-    		        });
+            if(event.orga!="Autre"){
+                element.css("background-color", event.asso.color);
+                element.css("border-color", event.asso.color);
+                element.css("color", event.asso.text_color);
+            }
+            
+            element.attr('href', 'javascript:void(0);');
+            element.click(function() {
+                $("#startTime").html(moment(event.start).format('D/M à H:mm'));
+                $("#endTime").html(moment(event.end).format('D/M à H:mm'));
+                $("#eventInfo").html(event.description);
+                $("#eventPlace").html(event.lieu);
+                $("#eventOrg").html(event.orga);
+                    
+                $("#eventContent").dialog({ modal: true, title: event.title, width:350});
+            });
     		    
         }
     });

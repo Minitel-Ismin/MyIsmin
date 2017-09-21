@@ -104,8 +104,8 @@ Route::group ( [
 				'roles:admin|prez' 
 		] 
 ], function () {
-	Route::resource ( 'event', 'EventController' 
-			);
+	Route::resource ( 'event', 'EventController' );
+	Route::resource ( 'lieu', 'LieuController' );
 } );
 
 Route::get('/asso/{asso_name}', 'AssoController@show');
