@@ -9,6 +9,8 @@ use Auth;
 use Illuminate\Support\Facades\DB;
 use App\Lieu;
 use App\Assos;
+use App\ICS;
+use App\User;
 
 class EventController extends Controller {
 	/**
@@ -64,12 +66,12 @@ class EventController extends Controller {
 	 */
 	public function store(Request $request) {
 		$errors =[];
+
 		$user = Auth::user ();
-		$event = new Evenement ();
-		$event->title = $request->input ( 'title' );
-		$event->start = \DateTime::createFromFormat ( 'd/m/Y H:i', $request->input ( 'start' ) );
-		$event->end = \DateTime::createFromFormat ( 'd/m/Y H:i', $request->input ( 'end' ) );
-		$event->description = $request->input ( 'description' );
+		$eventStart = \DateTime::createFromFormat ( 'd/m/Y H:i', $request->input ( 'start' ) );
+		$eventEnd = \DateTime::createFromFormat ( 'd/m/Y H:i', $request->input ( 'end' ) );
+		
+		$periodicite = $request->input('periodicite');
 
 		$lieu = Lieu::find ( $request->input ( 'lieu' ) );
 		if($lieu == null){
@@ -84,36 +86,80 @@ class EventController extends Controller {
 		}
 		
 		
-		if ($event->start > $event->end) {
+		if ($eventStart > $eventEnd) {
 
 // 			$request->session ()->flash ( 'error', 'La date de début doit être avant la date de fin' );
 			$errors[] = 'La date de début doit être avant la date de fin';
 		}
-		if(DB::table('evenements')
-				->where([['start', '<', $event->start],['end', '>', $event->start],['lieu_id','=',$lieu->id]])
-				->orwhere([['start', '<', $event->end],['end', '>', $event->end],['lieu_id','=',$lieu->id]])
-				->first() != null) {		
 
-// 			$request->session ()->flash ( 'error',"Un évènement est déjà prévu à la ".$lieu->name." sur ce créneau" );
-			$errors[] = "Un évènement est déjà prévu à la ".$lieu->name." sur ce créneau" ;
+
+		//verification periodicite
+		if($periodicite!='none'){
+			$endPeriodicite = \DateTime::createFromFormat ( 'd/m/Y H:i', $request->input ( 'end-periodicite' ) );
+			if($endPeriodicite < $eventEnd){
+				$errors[] = 'La date de fin de periodicité doit être après la fin du premier evenement';
+			}else{
+				$diff = $endPeriodicite->diff(new \DateTime('now'));
+				if(intval($diff->format("%m")) + intval($diff->format("%y")*12)> 9){
+					$errors[] = 'La date de fin de periodicité est trop lointaine';		
+				}
+			}
+			//construction de la table des évènements :
+			if($periodicite == 'mensuelle'){
+				$interval = new \DateInterval('P4W');
+			}else if($periodicite=="bimensuelle"){
+				$interval = new \DateInterval('P2W');
+			}else if ($periodicite=="hebdomadaire"){
+				$interval = new \DateInterval('P1W');
+			}
 		}
+
 		
-		if (count ( $errors )) {
-			$request->session ()->flash ( 'title',$event->title);
-				
-			$request->session ()->flash ( 'lieu_s',$request->input ( 'lieu' ));
-			$request->session()->flash('organisateur_s', $request->input('orga'));
-			$request->session ()->flash ( 'desc',$event->description);
-			$request->session ()->flash ( 'error', $errors);
-			return redirect()->action('EventController@create');
-		} 
-		$event->lieu ()->associate ( $lieu );
-		if($orga_id != 0){
-			$event->assos()->associate($orga);
-		}else{
-			$event->assos_id = 0;
-		}
-		$user->events ()->save ( $event );
+
+		$curDate = $eventStart;
+		do{
+			$event = new Evenement ();
+			$event->title = $request->input ( 'title' );
+			
+			$event->start = $curDate;
+			$event->end = $eventEnd;
+			$event->description = $request->input ( 'description' );
+
+			if(DB::table('evenements')
+					->where([['start', '<=', $event->start],['end', '>=', $event->start],['lieu_id','=',$lieu->id]])
+					->orwhere([['start', '<=', $event->end],['end', '>=', $event->end],['lieu_id','=',$lieu->id]])
+					->first() != null) {		
+
+		// 			$request->session ()->flash ( 'error',"Un évènement est déjà prévu à la ".$lieu->name." sur ce créneau" );
+				$errors[] = "Un évènement est déjà prévu à la ".$lieu->name." sur ce créneau" ;
+			}
+
+
+			if (count ( $errors )) {
+				$request->session ()->flash ( 'title',$event->title);
+					
+				$request->session ()->flash ( 'lieu_s',$request->input ( 'lieu' ));
+				$request->session()->flash('organisateur_s', $request->input('orga'));
+				$request->session ()->flash ( 'desc',$event->description);
+				$request->session ()->flash ( 'error', $errors);
+				return redirect()->action('EventController@create');
+			} 
+	
+			$event->lieu ()->associate ( $lieu );
+			if($orga_id != 0){
+				$event->assos()->associate($orga);
+			}else{
+				$event->assos_id = 0;
+			}
+			$user->events ()->save ( $event );
+			if($periodicite!='none'){
+				$curDate->add($interval);
+				$eventEnd->add($interval);
+			}
+			
+
+		}while($periodicite!='none' && $endPeriodicite>$curDate);
+
 		return redirect ()->action ( 'EventController@index' );
 	}
 	
@@ -248,4 +294,46 @@ class EventController extends Controller {
 		$event->delete ();
 		return redirect ( '/admin/event' );
 	}
+
+	public function ics($token){
+		$user = User::where('ics_token','=', $token)->get();
+		if(count($user)==0){
+			abort(500);
+		}
+
+		$events = Evenement::where ( 'start', '>', (new \DateTime ('first day of')) )->with(['lieu', 'assos'])->get ();
+		// $events = $events->toArray();
+		$icsArray = [];
+
+		foreach($events as $event){
+			$icsArray[] = [
+				"location"=> $event->lieu->name,
+				"description"=> $event->description,
+				"dtstart"=>$event->start,
+				"dtend"=>$event->end,
+				"summary"=>$event->assos->name,
+			];
+		}
+		$ics = new ICS($icsArray);
+
+		return response($ics->to_string())
+			->header('Content-Type', 'text/calendar; charset=utf-8')
+			->header('Content-Disposition', 'attachement; filename=invite.ics');
+	}
+
+	public function generateIcs(){
+		$user = Auth::user();
+		if($user->ics_token==""){
+			$token = str_random(30);
+			$user->ics_token = $token;
+			$user->save();
+		}
+
+		
+		$url = action('EventController@ics', ["token"=>$user->ics_token]);
+		return response($url);
+	}
+
+
+	
 }

@@ -25,4 +25,6 @@ class Evenement extends Model
 	public function clubs(){
 		return $this->belongsTo('App\Clubs');
 	}
+
+	
 }

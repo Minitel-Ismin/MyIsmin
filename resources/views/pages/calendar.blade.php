@@ -68,7 +68,10 @@ document.onreadystatechange = function () {
 
 </script>
 
-@endsection @section('content')
+@endsection 
+
+
+@section('content')
 <link href="{{ URL::asset('assets/css/jquery-ui.css' )}}"
 	rel="stylesheet">
 <div id='calendar'></div>

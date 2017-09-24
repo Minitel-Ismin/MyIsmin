@@ -17,10 +17,10 @@
 @endif
 </br>
 <div class="form-group">
-	<label for="title">Nom de l'évènement</label> <input name="title"
-		type="text" class="form-control" value="{{$title}}" required>
-
+	<label for="title">Nom de l'évènement</label> 
+	<input name="title" type="text" class="form-control" value="{{$title}}" required>
 </div>
+
 <div class="form-group">
 	<label for="lieu">Organisateur</label> <select class="form-control"
 		id="orga" name="orga">
@@ -67,27 +67,43 @@
 		</div>
 	</div>
 </div>
+
+<div class="form-group">
+
+	<label for="periodicite">Periodicité</label> 
+	<select class="form-control" id="periodicite" name="periodicite">
+		<option value="none">Aucune</option>
+		<option value="hebdomadaire">Hebdomadaire</option>
+		<option value="bimensuelle">Bimensuelle</option>
+		<option value="mensuelle">Mensuelle</option>
+
+	</select>
+</div>
+
+<div class="form-group" style="display: none;" id="end-periodicite">
+
+	<div class="row">
+		<div class='col-sm-12'>
+			<label for="end-periodicite">Fin periodicité</label> 
+			<input name="end-periodicite" class="form-control" id='datetimepicker2' type="hidden" required>
+		</div>
+	</div>
+</div>
+
 <div class="col-sm-offset-2 col-sm-10">
 	<button type="submit" class="btn btn-primary">Enregistrer</button>
 </div>
 
 @section('footerscript')
 
-<script type="text/javascript"
-	src="{{URL::asset('assets/js/jquery.js')}}"></script>
-<link rel="stylesheet" type="text/css"
-	href="{{URL::asset('assets/css/jquery-ui.css')}}">
+<script type="text/javascript" src="{{URL::asset('assets/js/jquery.js')}}"></script>
+<link rel="stylesheet" type="text/css" href="{{URL::asset('assets/css/jquery-ui.css')}}">
 <link href="{{URL::asset('assets/build/css/bootstrap-datetimepicker.min.css')}}" rel="stylesheet">
-<script type="text/javascript"
-	src="{{URL::asset('assets/js/moment-with-locales.js')}}"></script>
-<script type="text/javascript"
-	src="{{URL::asset('assets/js/collapse.js')}}"></script>
-<script type="text/javascript"
-	src="{{URL::asset('assets/js/transition.js')}}"></script>
-<script type="text/javascript"
-	src="{{URL::asset('assets/js/bootstrap.min.js')}}"></script>
-<script type="text/javascript"
-	src="{{URL::asset('assets/build/js/bootstrap-datetimepicker.min.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('assets/js/moment-with-locales.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('assets/js/collapse.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('assets/js/transition.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('assets/js/bootstrap.min.js')}}"></script>
+<script type="text/javascript" src="{{URL::asset('assets/build/js/bootstrap-datetimepicker.min.js')}}"></script>
 <script src="{{URL::asset('assets/js/jquery-ui.min.js')}}"></script>
 
 
@@ -103,6 +119,13 @@
             	locale:'fr'
             });
 	    });
+
+		$(function () {
+			
+	        $('#datetimepicker2').datetimepicker({
+            	locale:'fr'
+            });
+	    });
 </script>
 
 
@@ -112,7 +135,6 @@ $(document).ready(function(){
 	$('.editOption').val(initialText);
 
 	$('#lieu').change(function(){
-		console.log('coucou');
 		var selected = $('option:selected', this).attr('class');
 		var optionText = $('.editable').text();
 
@@ -128,6 +150,18 @@ $(document).ready(function(){
 
 		}else{
 			$('.editOption').hide();
+		}
+	});
+
+	$("#periodicite").change(function(){
+		var selected = $('option:selected', this).val();
+		console.log(selected);
+		if(selected != "none"){
+			$('#datetimepicker2').attr('type', 'text');
+			$("#end-periodicite").show();
+		}else{
+			$('#datetimepicker2').attr('type', 'hidden');
+			$("#end-periodicite").hide();
 		}
 	});
 });
