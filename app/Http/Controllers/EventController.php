@@ -306,12 +306,18 @@ class EventController extends Controller {
 		$icsArray = [];
 
 		foreach($events as $event){
+
+			if($event->assos){
+				$orga = $event->assos->name;
+			}else{
+				$orga = "Autre";
+			}
 			$icsArray[] = [
 				"location"=> $event->lieu->name,
 				"description"=> $event->description,
 				"dtstart"=>$event->start,
 				"dtend"=>$event->end,
-				"summary"=>$event->assos->name,
+				"summary"=>$orga,
 			];
 		}
 		$ics = new ICS($icsArray);
