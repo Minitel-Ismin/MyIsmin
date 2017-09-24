@@ -111,7 +111,7 @@ Route::group ( [
 Route::get('/asso/{asso_name}', 'AssoController@show');
 Route::get('/club/{club_name}', 'ClubController@show');
 Route::get('icscalendar', 'EventController@generateics')->middleware('auth'); //il faut être authentifié pour chopper son ics
-Route::get('icscalendar/{token}', 'EventController@ics')->middleware('auth');
+Route::get('icscalendar/{token}', 'EventController@ics');
 
 
 Route::get ( '/calendar/event', 'EventController@getall' );

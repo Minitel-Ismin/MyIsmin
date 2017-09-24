@@ -314,17 +314,15 @@ class EventController extends Controller {
 			}
 			$icsArray[] = [
 				"location"=> $event->lieu->name,
-				"description"=> $event->description,
+				"description"=> $event->description." Organisé par : ".$orga,
 				"dtstart"=>$event->start,
 				"dtend"=>$event->end,
-				"summary"=>$orga,
+				"summary"=>$event->title,
 			];
 		}
 		$ics = new ICS($icsArray);
-
 		return response($ics->to_string())
-			->header('Content-Type', 'text/calendar; charset=utf-8')
-			->header('Content-Disposition', 'attachement; filename=invite.ics');
+			->header('Content-Type', 'text/calendar; charset=utf-8');
 	}
 
 	public function generateIcs(){
