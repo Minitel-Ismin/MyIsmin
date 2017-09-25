@@ -42,7 +42,7 @@
 namespace App;
 
 class ICS {
-  const DT_FORMAT = 'Ymd\THis\Z';
+  const DT_FORMAT = 'Ymd\THis';
   protected $events = [];
   protected $properties = array();
   private $available_properties = array(

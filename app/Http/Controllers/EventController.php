@@ -315,8 +315,8 @@ class EventController extends Controller {
 			$icsArray[] = [
 				"location"=> $event->lieu->name,
 				"description"=> $event->description." Organisé par : ".$orga,
-				"dtstart"=>$event->start->format("Ymd")."T".$event->start->format("His"),
-				"dtend"=>$event->end->format("Ymd")."T".$event->end->format("His"),
+				"dtstart"=>$event->start,
+				"dtend"=>$event->end,
 				"summary"=>$event->title,
 			];
 		}
