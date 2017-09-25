@@ -88,7 +88,24 @@ class ICS {
       'BEGIN:VCALENDAR',
       'VERSION:2.0',
       'PRODID:-//hacksw/handcal//NONSGML v1.0//EN',
-      'CALSCALE:GREGORIAN'
+      'CALSCALE:GREGORIAN',
+      'BEGIN:VTIMEZONE',
+      'TZID:Europe/Paris',
+      'BEGIN:STANDARD',
+      'DTSTART:19710101T030000',
+      'TZOFFSETTO:+0100',
+      'TZOFFSETFROM:+0200',
+      'RRULE:FREQ=YEARLY;WKST=MO;INTERVAL=1;BYMONTH=10;BYDAY=-1SU',
+      'TZNAME:CET',
+      'END:STANDARD',
+      'BEGIN:DAYLIGHT',
+      'DTSTART:19710101T020000',
+      'TZOFFSETTO:+0200',
+      'TZOFFSETFROM:+0100',
+      'RRULE:FREQ=YEARLY;WKST=MO;INTERVAL=1;BYMONTH=3;BYDAY=-1SU',
+      'TZNAME:CEST',
+      'END:DAYLIGHT',
+      'END:VTIMEZONE'
     );
     // Build ICS properties - add header
     foreach($this->events as $event){
