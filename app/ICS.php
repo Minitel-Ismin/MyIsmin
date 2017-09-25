@@ -89,7 +89,7 @@ class ICS {
       'VERSION:2.0',
       'PRODID:-//hacksw/handcal//NONSGML v1.0//EN',
       'CALSCALE:GREGORIAN',
-      'X-WR-TIMEZONE:Europe/Paris'
+      'X-WR-TIMEZONE:Europe/Paris',
       // 'BEGIN:VTIMEZONE',
       // 'TZID:Europe/Paris',
       // 'BEGIN:STANDARD',
@@ -107,6 +107,24 @@ class ICS {
       // 'TZNAME:CEST',
       // 'END:DAYLIGHT',
       // 'END:VTIMEZONE'
+      'BEGIN:VTIMEZONE',
+'TZID:Europe/Paris',
+'X-LIC-LOCATION:Europe/Paris',
+'BEGIN:DAYLIGHT',
+'TZOFFSETFROM:+0100',
+'TZOFFSETTO:+0200',
+'TZNAME:CEST',
+'DTSTART:19700329T020000',
+'RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=-1SU;BYMONTH=3',
+'END:DAYLIGHT',
+'BEGIN:STANDARD',
+'TZOFFSETFROM:+0200',
+'TZOFFSETTO:+0100',
+'TZNAME:CET',
+'DTSTART:19701025T030000',
+'RRULE:FREQ=YEARLY;INTERVAL=1;BYDAY=-1SU;BYMONTH=10',
+'END:STANDARD',
+'END:VTIMEZONE',
     );
     // Build ICS properties - add header
     foreach($this->events as $event){
@@ -120,7 +138,12 @@ class ICS {
       $props['UID'] = uniqid();
       // Append properties
       foreach ($props as $k => $v) {
-        $ics_props[] = "$k:$v";
+        if($k == "dtstart" or $k=="dtend"){
+          $ics_props[] = "$k;TZID=Europe/Paris:$v";
+        }else{
+          $ics_props[] = "$k:$v";
+        }
+        
       }
       // Build ICS properties - add footer
       $ics_props[] = 'END:VEVENT';
