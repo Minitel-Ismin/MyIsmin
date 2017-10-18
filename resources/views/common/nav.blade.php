@@ -21,11 +21,6 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Plannings <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href={{ URL::to('/calendrier') }}>Associations</a></li>
-                        <li><a href="http://ismin.emse.fr/ismin/AffichePlanningMois.php?cycle=ismea&annee=1A">1A</a></li>
-                        <li><a href="http://ismin.emse.fr/ismin/AffichePlanningMois.php?cycle=ismea&annee=2A">2A</a></li>
-                        <li><a href="http://ismin.emse.fr/ismin/AffichePlanningMois.php?cycle=ismea&annee=3A">3A</a></li>
-                        <li><a href="http://ismin.emse.fr/ismin/AffichePlanningMois.php?cycle=ismea&annee=3A&option=M_S">3A M&S</a></li>
-                        <li><a href="http://ismin.emse.fr/ismin/AffichePlanningMois.php?cycle=ismea&annee=3A&option=ITS">3A ITS</a></li>
                     </ul>
                 </li>
                 <li>
@@ -64,7 +59,6 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Liens <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="http://ismin.emse.fr/ismin/">Scolamines</a></li>
                         <li><a href="http://portail.emse.fr/">Portail</a></li>
                         <li><a href="https://cloud-sgc.emse.fr:5001/webman/index.cgi">Cloud</a></li>
                         <li><a href="http://services-numeriques.emse.fr/documentation/assistance">Wiki DSI</a></li>
