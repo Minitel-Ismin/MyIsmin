@@ -59,6 +59,7 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Liens <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
+                        <li><a href="https://promethee.emse.fr/">Promethee</a></li>
                         <li><a href="http://portail.emse.fr/">Portail</a></li>
                         <li><a href="https://cloud-sgc.emse.fr:5001/webman/index.cgi">Cloud</a></li>
                         <li><a href="http://services-numeriques.emse.fr/documentation/assistance">Wiki DSI</a></li>
